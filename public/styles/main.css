@@ -10,3 +10,20 @@ body {
 .page-container {
     margin-top: 75px;
 }
+
+#statButton, #triviaButton{
+    color: white;
+}
+
+#lr1{
+    background-color: silver;
+    color: slategrey;
+}
+
+#statIndicator{
+    height: 2px;
+    display: none;
+}
+#triviaIndicator{
+    height: 2px;
+}
