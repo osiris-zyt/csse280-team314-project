@@ -27,10 +27,39 @@ rhit.ClassName = class {
 	}
 }
 
+$(document).ready(function() {
+  var slideNum = $('.page').length,
+    wrapperWidth = 100 * slideNum,
+    slideWidth = 100 / slideNum;
+  $('.wrapper').width(wrapperWidth + '%');
+  $('.page').width(slideWidth + '%');
+
+  $('button.scrollitem').click(function() {
+    $('button.scrollitem').removeClass('selected');
+    $(this).addClass('selected');
+
+    var slideNumber = $($(this).attr('href')).index('.page'),
+      margin = slideNumber * -100 + '%';
+
+    $('.wrapper').animate({
+      marginLeft: margin
+    }, 1000);
+    return false;
+  });
+});
+
 /* Main */
 /** function and class syntax examples */
 rhit.main = function () {
 	console.log("Ready");
+	document.querySelector("#statButton").addEventListener("click", (event) =>{
+		document.querySelector("#statIndicator").style.display = "block";
+		document.querySelector("#triviaIndicator").style.display = "none";
+	});
+	document.querySelector("#triviaButton").addEventListener("click", (event) =>{
+		document.querySelector("#statIndicator").style.display = "none";
+		document.querySelector("#triviaIndicator").style.display = "block";
+	});
 
 };
 

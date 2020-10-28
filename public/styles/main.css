@@ -22,8 +22,24 @@ body {
 
 #statIndicator{
     height: 2px;
-    display: none;
+    
 }
 #triviaIndicator{
     height: 2px;
+    display: none;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+.page {
+  float: left;
+  min-height: 100%;
+}
+
+
+.simulate {
+  height: 2000px;
 }
