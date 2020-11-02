@@ -51,15 +51,22 @@ $(document).ready(function() {
 /* Main */
 /** function and class syntax examples */
 rhit.main = function () {
-	console.log("Ready");
-	document.querySelector("#statButton").addEventListener("click", (event) =>{
-		document.querySelector("#statIndicator").style.display = "block";
-		document.querySelector("#triviaIndicator").style.display = "none";
-	});
-	document.querySelector("#triviaButton").addEventListener("click", (event) =>{
-		document.querySelector("#statIndicator").style.display = "none";
-		document.querySelector("#triviaIndicator").style.display = "block";
-	});
+  console.log("Ready");
+  if(document.querySelector("#mainPage")){
+    document.querySelector("#lr1").onclick = (event) => {
+      window.location.href = "login.html";
+    }
+
+
+	  document.querySelector("#statButton").addEventListener("click", (event) =>{
+	  	document.querySelector("#statIndicator").style.display = "block";
+	  	document.querySelector("#triviaIndicator").style.display = "none";
+	  });
+	  document.querySelector("#triviaButton").addEventListener("click", (event) =>{
+	  	document.querySelector("#statIndicator").style.display = "none";
+	  	document.querySelector("#triviaIndicator").style.display = "block";
+    });
+  }
 
 };
 
