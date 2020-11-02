@@ -48,6 +48,34 @@ $(document).ready(function() {
   });
 });
 
+rhit.startFirebaseUI = function() {
+	// FirebaseUI config.
+	var uiConfig = {
+        signInSuccessUrl: '/',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+          firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+        ],
+        // tosUrl and privacyPolicyUrl accept either url string or a callback
+        // function.
+        // Terms of service url/callback.
+        //tosUrl: '<your-tos-url>',
+        // Privacy policy url/callback.
+        //privacyPolicyUrl: function() {
+        //  window.location.assign('<your-privacy-policy-url>');
+        //}
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+
+}
+
+
 /* Main */
 /** function and class syntax examples */
 rhit.main = function () {
@@ -56,8 +84,6 @@ rhit.main = function () {
     document.querySelector("#lr1").onclick = (event) => {
       window.location.href = "login.html";
     }
-
-
 	  document.querySelector("#statButton").addEventListener("click", (event) =>{
 	  	document.querySelector("#statIndicator").style.display = "block";
 	  	document.querySelector("#triviaIndicator").style.display = "none";
@@ -66,6 +92,10 @@ rhit.main = function () {
 	  	document.querySelector("#statIndicator").style.display = "none";
 	  	document.querySelector("#triviaIndicator").style.display = "block";
     });
+  }
+  
+  if(document.querySelector("#loginPage")){
+    rhit.startFirebaseUI();
   }
 
 };
