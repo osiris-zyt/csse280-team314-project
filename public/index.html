@@ -21,7 +21,15 @@
 
     <div class="wrapper">
       <div id="statisticContainer" class="page">
-        <h3>statistics goes here</h3>
+        <div id="logInButtonContainer">
+          <img id="heartLogo" src="/images/heart_logo.png" alt="Heart Logo" >
+
+          <h3>Log In to see your personalized COVID information</h3>
+          <button id="logInButton" type="button" class="btn">LOG IN</button>
+        </div>
+        <div id="worldStatisticsContainer">
+          <iframe id="worldStatisticFrame" src="https://coronavirus.jhu.edu/map.html"></iframe>
+      </div>
         
       </div>
       <div id="triviaContainer" class="page">
@@ -41,8 +49,8 @@
             </div>
           </div>
           <div id="bottomNavi" class="row">
-            <h6>PREV</h6>
-            <h6 class="ml-auto">NEXT</h6>
+            <a>PREV</a>
+            <a class="ml-auto">NEXT</a>
           </div>
         </div>
         
