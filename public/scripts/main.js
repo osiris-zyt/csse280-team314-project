@@ -75,11 +75,15 @@ rhit.startFirebaseUI = function() {
 
 }
 
+rhit.logAccountInfo = function() {
+  
+}
 
 /* Main */
 /** function and class syntax examples */
 rhit.main = function () {
   console.log("Ready");
+
   if(document.querySelector("#mainPage")){
     document.querySelector("#lr1").onclick = (event) => {
       window.location.href = "login.html";
@@ -92,9 +96,11 @@ rhit.main = function () {
 	  	document.querySelector("#statIndicator").style.display = "none";
 	  	document.querySelector("#triviaIndicator").style.display = "block";
     });
+
   }
   
   if(document.querySelector("#loginPage")){
+
     rhit.startFirebaseUI();
   }
 
