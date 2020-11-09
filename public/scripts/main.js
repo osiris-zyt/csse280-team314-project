@@ -221,19 +221,19 @@ rhit.MainPageController = class {
 	}
 
 	updateList() {
-    console.log("update list");
+    console.log("update main page");
     if(rhit.fbAuthManager.isSignedIn){
       let profileCreated = false;
       for (let i = 0; i < rhit.fbUserManager.length; i++){
         const profile = rhit.fbUserManager.getUserAtIndex(i);
-        console.log(rhit.fbAuthManager.uid);
-        console.log(profile.user);
         if(profile.user == rhit.fbAuthManager.uid){
           profileCreated = true;
         }
       }
       if(!profileCreated){
-        rhit.fbUserManager.add("", "", "", "", rhit.fbAuthManager.uid);
+		rhit.fbUserManager.add("", "", "", "", rhit.fbAuthManager.uid);
+		alert("Your profile is incomplete. Let's go and set up your profile!");
+		window.location.href = "account.html";
       }
 
     } 
@@ -243,7 +243,7 @@ rhit.MainPageController = class {
 rhit.ProfilePageController = class {
 	constructor() {
 		document.querySelector("#applyBtn").addEventListener("click", (event) =>{
-
+			window.location.href = "/";
 		});
 
 		document.querySelector("#deleteBtn").addEventListener("click", (event) =>{
@@ -255,24 +255,12 @@ rhit.ProfilePageController = class {
 	}
 
 	updateList() {
-		console.log("update list");
-
-		const newList = htmlToElement('<div id="columns"></div>');
-
-		for (let i = 0; i < rhit.fbPhotoManager.length; i++){
-			const img = rhit.fbPhotoManager.getPhotoAtIndex(i);
-			const newCard = this._createCard(img);
-			newCard.onclick = (event) => {
-				window.location.href = `/photo.html?id=${img.id}`;
-			}
-			newList.appendChild(newCard);
-		}
-
-		const oldList = document.querySelector("#columns");
-		oldList.removeAttribute("id");
-		oldList.hidden = true;
-
-		oldList.parentElement.appendChild(newList);
+		console.log("update Account Page");
+		
+		// document.querySelector("#inputNickname").value = userProfile.nickname;
+		// document.querySelector("#inputAge").value = userProfile.age;
+		// document.querySelector("#countries").value = userProfile.country;
+		// document.querySelector("#states").value = userProfile.state;
 
 	}
 
