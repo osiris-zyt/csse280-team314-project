@@ -17,7 +17,10 @@ rhit.FB_KEY_AGE = "Age";
 rhit.FB_KEY_COUNTRY = "Country";
 rhit.FB_KEY_STATE = "State"
 rhit.FB_KEY_USER = "User"
+rhit.FB_COLLECTION_TRIVIA = "Trivia"
+rhit.FB_KEY_CONTENT = "Content"
 rhit.fbUserManager = null;
+rhit.fbTriviaManager = null;
 rhit.fbSingleUserManager = null;
 rhit.fbAuthManager = null;
 
@@ -202,6 +205,53 @@ rhit.FbUserManager = class {
 	}
 }
 
+rhit.FbTriviaManager = class {
+	constructor() {
+	  this._documentSnapshots = [];
+	  this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_TRIVIA);
+	  this._unsubscribe = null;
+	}
+	
+	add(content) {
+		this._ref.add({
+			[rhit.FB_KEY_CONTENT]: content, 
+			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
+		})
+		.then(function(docRef) {
+			console.log("Document written with ID: ", docRef.id);
+		})
+		.catch(function(error) {
+			console.error("Error adding document: ", error);
+		});
+		
+	}
+
+	beginListening(changeListener) {
+		let query = this._ref.limit(50);
+		this._unsubscribe = query.onSnapshot((querySnapshot) => {
+			console.log("Trivia Update");
+			this._documentSnapshots = querySnapshot.docs;
+			changeListener();
+		})
+	}
+
+	stopListening() {
+		this._unsubscribe();
+	}
+
+	update() {    }
+	delete(id) { }
+
+	get length() {
+		return this._documentSnapshots.length;
+	}
+
+	getTriviaAtIndex(index) {
+		const docSnapshot = this._documentSnapshots[index];
+		return docSnapshot.get(rhit.FB_KEY_CONTENT);
+	}
+}
+
 rhit.MainPageController = class {
 	constructor() {
 		//set the bottom navbar indicator
@@ -219,20 +269,30 @@ rhit.MainPageController = class {
 		});
 
 		rhit.fbUserManager.beginListening(this.updateList.bind(this));
+		rhit.fbTriviaManager.beginListening(this.updateTrivia.bind(this));
 
 	}
 
-	checkForProfile(){
-		let profileCreated = false;
-		let profileId = "";
-		for (let i = 0; i < rhit.fbUserManager.length; i++) {
-			const profile = rhit.fbUserManager.getUserAtIndex(i);
-			if (profile.user == rhit.fbAuthManager.uid) {
-				profileCreated = true;
-				profileId = profile.id;
-			}
+	updateTrivia() {
+		const triv = rhit.fbTriviaManager.getTriviaAtIndex(0);
+		document.querySelector("#cardTrivia").innerHTML = triv;
+		let count = 0;
+		const length = rhit.fbTriviaManager.length;
+		document.querySelector("#triviaNext").onclick = (event) => {
+			count++;
+			const triv = rhit.fbTriviaManager.getTriviaAtIndex(count%length);
+			document.querySelector("#cardTrivia").innerHTML = triv;
 		}
-		return profileCreated;
+		document.querySelector("#triviaPrev").onclick = (event) => {
+			count--;
+			if(count<0){
+				count = length-1;
+			}
+			const triv = rhit.fbTriviaManager.getTriviaAtIndex(count%length);
+			document.querySelector("#cardTrivia").innerHTML = triv;
+		}
+
+
 	}
 
 	updateList() {
@@ -373,6 +433,7 @@ rhit.ProfilePageController = class {
 
 rhit.initializePage = function () {
 	if (document.querySelector("#mainPage")) {
+		rhit.fbTriviaManager = new rhit.FbTriviaManager();
 		new rhit.MainPageController();
 		//direct to the login page if the user haven't log in
 		if (!rhit.fbAuthManager.isSignedIn) {
@@ -410,7 +471,7 @@ rhit.initializePage = function () {
 /* Main */
 /** function and class syntax examples */
 rhit.main = function () {
-	console.log("Ready");
+	//console.log("Ready");
 
 	rhit.fbAuthManager = new rhit.FbAuthManager();
 
