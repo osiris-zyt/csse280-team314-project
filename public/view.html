@@ -7,26 +7,40 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="styles/main.css">
-  <title>COVIDentify</title>
+  <title>COVIDentify Login</title>
 </head>
  
 <body>
   <nav class="navbar navbar-dark fixed-top justify-content-start">
+    <a class="navbar-brand" href="index.html">
+      <i class="material-icons">arrow_back</i>
+      </a>
     <div class="navbar-brand">COVIDentify</div>
     
   </nav>
-  <div id="resultPage" class="container page-container">
-
-    <div class="row justify-content-center">
-      <button id="fab" type="button" class="btn bmd-btn-fab">
-        <i class="material-icons">check</i>
-      </button>
-    </div>
-
-    <h3>Congratulations! You have finished the test</h3>
+  <div id="viewTestPage" class="container page-container">
+    <h3>View Your Test History Here</h3>
 
     <div class="row">
       <button id="homeButton" type="button" class="btn">Mainpage</button>
+    </div>
+    
+    <div class="row">
+      <div id="username" class="col-sm-12 col-md-6">
+        Lorem Ipsum
+      </div>
+
+    </div>
+        
+    
+    <div id="testHistoryContainer">
+      <div class="card">
+        <div class="card-body row">
+          <h5 class="card-title">Test No. 1</h5>
+          <h4 class="card-subtitle mb-2 text-muted ml-auto mr-5">Lorem</h4>
+        </div>
+      </div>
+
     </div>
 
   </div>

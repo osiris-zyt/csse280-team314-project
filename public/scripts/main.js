@@ -19,10 +19,17 @@ rhit.FB_KEY_STATE = "State"
 rhit.FB_KEY_USER = "User"
 rhit.FB_COLLECTION_TRIVIA = "Trivia"
 rhit.FB_KEY_CONTENT = "Content"
+rhit.FB_COLLECTION_TEST = "Test"
+rhit.FB_KEY_QUESTION = "Question"
+rhit.FB_KEY_ANSWER = "Answer"
+rhit.FB_COLLECTION_RESULT = "Result"
+rhit.FB_KEY_SCORES = "Scores"
 rhit.fbUserManager = null;
 rhit.fbTriviaManager = null;
 rhit.fbSingleUserManager = null;
 rhit.fbAuthManager = null;
+rhit.fbTestManager = null;
+rhit.fbResultManager = null;
 
 rhit.User = class {
 	constructor(id, nickname, age, country, state, user) {
@@ -57,6 +64,22 @@ $(document).ready(function () {
 		return false;
 	});
 });
+
+function htmlToElement(html){
+	var template = document.createElement('template');
+	heml = html.trim();
+	template.innerHTML = html;
+	return template.content.firstChild;
+}
+
+function createCard(number, score){
+	return htmlToElement(`<div class="card">
+	<div class="card-body row">
+	  <h5 class="card-title">Test No. ${number}</h5>
+	  <h4 class="card-subtitle mb-2 text-muted ml-auto mr-5">${score}</h4>
+	</div>
+  </div>`)
+}
 
 rhit.startFirebaseUI = function () {
 	// FirebaseUI config.
@@ -213,16 +236,6 @@ rhit.FbTriviaManager = class {
 	}
 	
 	add(content) {
-		this._ref.add({
-			[rhit.FB_KEY_CONTENT]: content, 
-			[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
-		})
-		.then(function(docRef) {
-			console.log("Document written with ID: ", docRef.id);
-		})
-		.catch(function(error) {
-			console.error("Error adding document: ", error);
-		});
 		
 	}
 
@@ -267,6 +280,14 @@ rhit.MainPageController = class {
 		document.querySelector("#menuSignOut").addEventListener("click", (event) => {
 			rhit.fbAuthManager.signOut();
 		});
+
+		document.querySelector("#menuTest").addEventListener("click", (event) => {
+			window.location.href = "view.html";
+		});
+
+		document.querySelector("#startButton").onclick = (event) => {
+			window.location.href = "test.html";
+		}
 
 		rhit.fbUserManager.beginListening(this.updateList.bind(this));
 		rhit.fbTriviaManager.beginListening(this.updateTrivia.bind(this));
@@ -431,6 +452,144 @@ rhit.ProfilePageController = class {
 
 }
 
+rhit.Question = class{
+	constructor(question, answer) {
+		this.question = question;
+		this.answer = answer;
+	}
+}
+
+rhit.FbTestManager = class {
+	constructor() {
+	  this._documentSnapshots = [];
+	  this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_TEST);
+	  this._unsubscribe = null;
+	}
+	
+	add() {
+		
+	}
+
+	beginListening(changeListener) {
+		let query = this._ref.limit(20);
+		this._unsubscribe = query.onSnapshot((querySnapshot) => {
+			console.log("Test Update");
+			this._documentSnapshots = querySnapshot.docs;
+			changeListener();
+		})
+	}
+
+	stopListening() {
+		this._unsubscribe();
+	}
+
+	update() {    }
+	delete(id) { }
+
+	get length() {
+		return this._documentSnapshots.length;
+	}
+
+	getQuestionAtIndex(index) {
+		const docSnapshot = this._documentSnapshots[index];
+		const ans = new rhit.Question(
+			docSnapshot.get(rhit.FB_KEY_QUESTION),
+			docSnapshot.get(rhit.FB_KEY_ANSWER),
+		);
+		return ans;
+	}
+}
+
+rhit.TestPageController = class {
+	constructor() {
+
+		rhit.fbTestManager.beginListening(this.updateList.bind(this));
+
+	}
+
+	updateList() {
+		console.log("update Test Page");
+		//document.querySelector("#inputNickname").value = rhit.fbSingleUserManager.nickname;
+		let counter = 0;
+		let score = 0;
+		const length = rhit.fbTestManager.length;
+		let problem = rhit.fbTestManager.getQuestionAtIndex(counter);
+		document.querySelector("#questionBody").innerHTML = problem.question;
+		document.querySelector("#questionTitle").innerHTML = `Question ${counter+1} of ${length}`
+
+		document.querySelector("#checkButton").addEventListener("click", (event) => {
+			if(document.querySelector("#inputAnswer").value == problem.answer){
+				score++;
+				document.querySelector("#correct").style.display = "block";
+				document.querySelector("#incorrect").style.display = "none";
+			}else{
+				document.querySelector("#incorrect").style.display = "block";
+				document.querySelector("#correct").style.display = "none";
+			}
+		});
+
+		document.querySelector("#nextButton").addEventListener("click", (event) => {
+			counter ++;
+			if(counter == length){
+				window.location.href = `/result.html?score=${score + "-" + length}`;
+			}
+			problem = rhit.fbTestManager.getQuestionAtIndex(counter);
+			document.querySelector("#questionBody").innerHTML = problem.question;
+			document.querySelector("#questionTitle").innerHTML = `Question ${counter+1} of ${length}`
+			document.querySelector("#correct").style.display = "none";
+			document.querySelector("#incorrect").style.display = "none";
+		});
+
+	}
+
+}
+
+rhit.FbResultManager = class {
+	constructor(uid) {
+		this._uid = uid;
+		this._documentSnapshot = {};
+		this._unsubscribe = null;
+		this._ref = firebase.firestore().collection(rhit.FB_COLLECTION_RESULT);
+		console.log(`${this._ref.path}`);
+	}
+	beginListening(changeListener) {
+		this._unsubscribe = this._ref.doc(this._uid).onSnapshot((doc => {
+			if(doc.exists){
+				this._documentSnapshot = doc;
+				changeListener();
+			}else{
+				this.set([]);
+				console.log("no such document");
+				this.beginListening(changeListener);
+			}
+		}))
+	}
+	stopListening() {
+		this._unsubscribe();
+	}
+	set(scores) {
+		this._ref.doc(this._uid).set({
+			[rhit.FB_KEY_SCORES]: scores,
+			
+		})
+			.then(() => {
+				console.log("Document updated");
+			})
+			.catch(function (error) {
+				console.error("Error adding document: ", error);
+			});
+	}
+
+	delete() {
+		return this._ref.delete();
+	}
+
+	get scores() {
+		
+		return this._documentSnapshot.get(rhit.FB_KEY_SCORES);
+	}
+}
+
 rhit.initializePage = function () {
 	if (document.querySelector("#mainPage")) {
 		rhit.fbTriviaManager = new rhit.FbTriviaManager();
@@ -438,6 +597,9 @@ rhit.initializePage = function () {
 		//direct to the login page if the user haven't log in
 		if (!rhit.fbAuthManager.isSignedIn) {
 			document.querySelector("#lr1").onclick = (event) => {
+				window.location.href = "login.html";
+			}
+			document.querySelector("#startButton").onclick = (event) => {
 				window.location.href = "login.html";
 			}
 		}
@@ -460,11 +622,60 @@ rhit.initializePage = function () {
 
 		if(!docId){
 			console.log("error, no Id");
-			window.location.href = "/";
+			//window.location.href = "/";
 		}
 		rhit.fbSingleUserManager = new rhit.FbSingleUserManager(docId);
 		new rhit.ProfilePageController();
 
+	}
+
+	if (document.querySelector("#testPage")) {
+		console.log("on test page");
+		rhit.fbTestManager = new rhit.FbTestManager();
+		new rhit.TestPageController();
+	}
+
+	if (document.querySelector("#resultPage")) {
+		console.log("on result page");
+		document.querySelector("#homeButton").onclick = (event) => {
+			window.location.href = "index.html";
+		};
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const score = urlParams.get("score");
+		rhit.fbResultManager = new rhit.FbResultManager(rhit.fbAuthManager.uid);
+		rhit.fbResultManager.beginListening(() => {
+		});
+		setTimeout(function () {
+			const list = rhit.fbResultManager.scores;
+			const result = [score];
+			for(let i = 0; i < list.length && i < 10; i++){
+				result[i+1] = list[i];
+			}
+			rhit.fbResultManager.set(result);
+		}, 1000);
+	}
+
+	if (document.querySelector("#viewTestPage")) {
+		document.querySelector("#homeButton").onclick = (event) => {
+			window.location.href = "index.html";
+		};
+		document.querySelector("#username").innerHTML = "Username: " + rhit.fbAuthManager.uid;
+		rhit.fbResultManager = new rhit.FbResultManager(rhit.fbAuthManager.uid);
+		const newList = htmlToElement('<div id="testHistoryContainer"></div>');
+		rhit.fbResultManager.beginListening(() => {
+			const list = rhit.fbResultManager.scores;
+			for(let i = 0; i < list.length; i++){
+				const item = list[i];
+				const newCard = createCard(i, item);
+				newList.appendChild(newCard);
+			}
+			const oldList = document.querySelector("#testHistoryContainer");
+			oldList.removeAttribute("id");
+			oldList.hidden = true;
+	
+			oldList.parentElement.appendChild(newList);
+		});
 	}
 }
 
