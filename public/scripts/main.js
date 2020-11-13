@@ -197,7 +197,6 @@ rhit.FbUserManager = class {
 	beginListening(changeListener) {
 		let query = this._ref;
 		this._unsubscribe = query.onSnapshot((querySnapshot) => {
-			console.log("User Profile Update");
 			this._documentSnapshots = querySnapshot.docs;
 			changeListener();
 		})
@@ -242,7 +241,6 @@ rhit.FbTriviaManager = class {
 	beginListening(changeListener) {
 		let query = this._ref.limit(50);
 		this._unsubscribe = query.onSnapshot((querySnapshot) => {
-			console.log("Trivia Update");
 			this._documentSnapshots = querySnapshot.docs;
 			changeListener();
 		})
@@ -273,6 +271,14 @@ rhit.MainPageController = class {
 			document.querySelector("#triviaIndicator").style.display = "none";
 		});
 		document.querySelector("#triviaButton").addEventListener("click", (event) => {
+			document.querySelector("#statIndicator").style.display = "none";
+			document.querySelector("#triviaIndicator").style.display = "block";
+		});
+		document.querySelector("#statButtonLg").addEventListener("click", (event) => {
+			document.querySelector("#statIndicator").style.display = "block";
+			document.querySelector("#triviaIndicator").style.display = "none";
+		});
+		document.querySelector("#triviaButtonLg").addEventListener("click", (event) => {
 			document.querySelector("#statIndicator").style.display = "none";
 			document.querySelector("#triviaIndicator").style.display = "block";
 		});
@@ -329,13 +335,14 @@ rhit.MainPageController = class {
 				const profile = rhit.fbUserManager.getUserAtIndex(i);
 				if (profile.user == rhit.fbAuthManager.uid) {
 					profileCreated = true;
+					document.querySelector("#greet").innerHTML = `Hello, ${profile.nickname}`;
 					profileId = profile.id;
-					console.log(profile.country);
 				}
 			}
 			document.querySelector("#menuEdit").addEventListener("click", (event) => {
 				location.href = `/account.html?id=${profileId}`;
 			});
+	
 			if (!profileCreated) {
 				rhit.fbUserManager.add("", "", "", "", rhit.fbAuthManager.uid)
 				setTimeout(function () {
@@ -349,11 +356,12 @@ rhit.MainPageController = class {
 				}, 1000);	
 			}
 
-		}
-		for (let i = 0; i < rhit.fbUserManager.length; i++) {
-			const profile = rhit.fbUserManager.getUserAtIndex(i);
-			if (profile.user == rhit.fbAuthManager.uid) {
-				console.log(profile.nickname);
+
+			for (let i = 0; i < rhit.fbUserManager.length; i++) {
+				const profile = rhit.fbUserManager.getUserAtIndex(i);
+				if (profile.user == rhit.fbAuthManager.uid) {
+					//console.log(profile.nickname);
+				}
 			}
 		}		
 	}
@@ -370,7 +378,6 @@ rhit.FbSingleUserManager = class {
 		this._unsubscribe = this._ref.onSnapshot((doc => {
 			if (doc.exists) {
 				this._documentSnapshot = doc;
-				console.log(this._documentSnapshot.data());
 				changeListener();
 			} else {
 				console.log("no such document");
@@ -527,6 +534,7 @@ rhit.TestPageController = class {
 		document.querySelector("#questionTitle").innerHTML = `Question ${counter+1} of ${length}`
 
 		document.querySelector("#checkButton").addEventListener("click", (event) => {
+			document.querySelector("#nextButton").disabled = false;
 			if(document.querySelector("#inputAnswer").value == problem.answer){
 				score++;
 				document.querySelector("#correct").style.display = "block";
@@ -544,9 +552,11 @@ rhit.TestPageController = class {
 			}
 			problem = rhit.fbTestManager.getQuestionAtIndex(counter);
 			document.querySelector("#questionBody").innerHTML = problem.question;
-			document.querySelector("#questionTitle").innerHTML = `Question ${counter+1} of ${length}`
+			document.querySelector("#questionTitle").innerHTML = `Question ${counter+1} of ${length}`;
+			document.querySelector("#inputAnswer").value = "";
 			document.querySelector("#correct").style.display = "none";
 			document.querySelector("#incorrect").style.display = "none";
+			document.querySelector("#nextButton").disabled = true;
 		});
 
 	}
@@ -605,6 +615,7 @@ rhit.initializePage = function () {
 		new rhit.MainPageController();
 		//direct to the login page if the user haven't log in
 		if (!rhit.fbAuthManager.isSignedIn) {
+			document.querySelector("#greet").innerHTML = "";
 			document.querySelector("#lr1").onclick = (event) => {
 				window.location.href = "login.html";
 			}
@@ -679,7 +690,7 @@ rhit.initializePage = function () {
 			const list = rhit.fbResultManager.scores;
 			for(let i = 0; i < list.length; i++){
 				const item = list[i];
-				const newCard = createCard(i, item);
+				const newCard = createCard(i+1, item);
 				newList.appendChild(newCard);
 			}
 			const oldList = document.querySelector("#testHistoryContainer");

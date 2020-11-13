@@ -15,7 +15,7 @@ body {
     margin-top: 75px;
 }
 
-#statButton, #triviaButton{
+#statButton, #triviaButton, #statButtonLg, #triviaButtonLg{
     color: white;
 }
 
@@ -193,6 +193,14 @@ caption {
     color: white;
     caption-side: top;
 }
+
+#correct{
+    color: green;
+}
+#incorrect{
+    color: red;
+}
+
 /* END */
 
 /* #fab2{

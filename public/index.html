@@ -13,6 +13,7 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <a class="navbar-brand" href="#">COVIDentify</a>
+    <a id="greet" class="navbar-brand ml-auto"></a>
     <div class="dropdown pull-xs-right">
     <button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="material-icons">person</i>
@@ -27,7 +28,7 @@
   <div id="mainPage" class="page-container">
     <div class="wrapper">
         <!-- First Page (Azzam's) -->
-      <div id="statisticsContainer" class="page">
+      <div id="statisticContainer" class="page">
         <!-- Upper Half -->
         <div id="countryContainer">
           <div class="row justify-content-center">
@@ -80,7 +81,6 @@
         </div>
         <!-- Lower Half -->
         <div id="worldContainer">
-          <!-- Static Table -->
           <table>
             <caption>Cases Around The Globe</caption>
             <tr>
@@ -127,7 +127,7 @@
         <div class="card col-md-10 col-lg-8 mx-auto">
           <div class="card-body">
             <div class="text-center">
-              <img id="sample" class="img-fluid" src="" alt="Sample">
+              
             </div>
             <div class="row">
               <h5 id="cardQuote" class="card-title">Do You Know...</h5>
@@ -162,8 +162,10 @@
 
   </div>
   <nav class="navbar navbar-dark fixed-bottom">
-    <button href="#statisticContainer" id="statButton" class="btn col-6 scrollitem selected">Statistics around the globe</button>
-    <button href="#triviaContainer" id="triviaButton" class="btn col-6 scrollitem">Trivia and small tests</button>
+    <button href="#statisticContainer" id="statButton" class="btn col-6 scrollitem selected d-sm-none">Statistics</button>
+    <button href="#triviaContainer" id="triviaButton" class="btn col-6 scrollitem d-sm-none">Trivia</button>
+    <button href="#statisticContainer" id="statButtonLg" class="btn col-6 scrollitem selected d-none d-sm-block">Statistics around the globe</button>
+    <button href="#triviaContainer" id="triviaButtonLg" class="btn col-6 scrollitem d-none d-sm-block">Trivia and small tests</button>
     <div class="w-100"></div>
     <div id="statIndicator" class="col-6 bg-light"></div>
     <div id="triviaIndicator" class="col-6 bg-light ml-auto"></div>
