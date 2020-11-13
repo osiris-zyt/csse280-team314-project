@@ -291,7 +291,10 @@ rhit.MainPageController = class {
 
 		rhit.fbUserManager.beginListening(this.updateList.bind(this));
 		rhit.fbTriviaManager.beginListening(this.updateTrivia.bind(this));
-
+		// TEMP FOR ME (AZZAM):
+		// document.getElementById("countryContainer").innerHTML = "<table><caption>Cases Around The Globe</caption><tr><th>Country</th><th>Active Cases</th><th>Total Cases</th></tr><tr><td>World</td><td></td><td></td></tr><tr><td>USA</td><td></td><td></td></tr><tr><td>India</td><td></td><td></td></tr><tr><td>Brazil</td><td></td><td></td></tr><tr><td>Russia</td><td></td><td></td></tr><tr><td>Colombia</td><td></td><td></td></tr></table>";
+		// END.
+		
 	}
 
 	updateTrivia() {
@@ -312,7 +315,7 @@ rhit.MainPageController = class {
 			const triv = rhit.fbTriviaManager.getTriviaAtIndex(count%length);
 			document.querySelector("#cardTrivia").innerHTML = triv;
 		}
-
+		
 
 	}
 
@@ -327,6 +330,7 @@ rhit.MainPageController = class {
 				if (profile.user == rhit.fbAuthManager.uid) {
 					profileCreated = true;
 					profileId = profile.id;
+					console.log(profile.country);
 				}
 			}
 			document.querySelector("#menuEdit").addEventListener("click", (event) => {
@@ -346,7 +350,12 @@ rhit.MainPageController = class {
 			}
 
 		}
-		
+		for (let i = 0; i < rhit.fbUserManager.length; i++) {
+			const profile = rhit.fbUserManager.getUserAtIndex(i);
+			if (profile.user == rhit.fbAuthManager.uid) {
+				console.log(profile.nickname);
+			}
+		}		
 	}
 }
 
@@ -602,6 +611,9 @@ rhit.initializePage = function () {
 			document.querySelector("#startButton").onclick = (event) => {
 				window.location.href = "login.html";
 			}
+			document.querySelector("#logInButton").onclick = (event) => {
+				window.location.href = "login.html";
+			}
 		}
 	}
 
@@ -694,6 +706,7 @@ rhit.main = function () {
 		rhit.fbUserManager = new rhit.FbUserManager();
 		rhit.initializePage();
 	});
+
 
 };
 

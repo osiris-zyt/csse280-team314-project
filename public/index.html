@@ -25,20 +25,104 @@
   </div>
   </nav>
   <div id="mainPage" class="page-container">
-
     <div class="wrapper">
-      <div id="statisticContainer" class="page">
-        <div id="logInButtonContainer">
-          <img id="heartLogo" src="/images/heart_logo.png" alt="Heart Logo" >
+        <!-- First Page (Azzam's) -->
+      <div id="statisticsContainer" class="page">
+        <!-- Upper Half -->
+        <div id="countryContainer">
+          <div class="row justify-content-center">
+            <button id="fab" type="button" class="btn bmd-btn-fab">
+                <i class="material-icons">sync</i>
+            </button>
+          </div>
 
           <h3>Log In to see your personalized COVID information</h3>
           <button id="logInButton" type="button" class="btn">LOG IN</button>
+          <!-- <div display="none">          
+            <table>
+              <caption>Cases Around The Globe</caption>
+              <tr>
+                <th>Country</th>
+                <th>Active Cases</th>
+                <th>Total Cases</th>
+              </tr>
+              <tr>
+                <td>World</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                  <td>USA</td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td>India</td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td>Brazil</td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td>Russia</td>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td>Colombia</td>
+                  <td></td>
+                  <td></td>
+              </tr>
+            </table></div> -->
         </div>
-        <div id="worldStatisticsContainer">
-          <iframe id="worldStatisticFrame" src="https://coronavirus.jhu.edu/map.html"></iframe>
+        <!-- Lower Half -->
+        <div id="worldContainer">
+          <!-- Static Table -->
+          <table>
+            <caption>Cases Around The Globe</caption>
+            <tr>
+              <th>Country</th>
+              <th>Active Cases</th>
+              <th>Total Cases</th>
+            </tr>
+            <tr>
+              <td>World</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+                <td>USA</td>
+                <td>500040040</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>India</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Brazil</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Russia</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Colombia</td>
+                <td></td>
+                <td></td>
+            </tr>
+          </table>
+        </div>
       </div>
-        
-      </div>
+
+      
       <div id="triviaContainer" class="page">
         <div class="card col-md-10 col-lg-8 mx-auto">
           <div class="card-body">
@@ -99,3 +183,5 @@
 </body>
 
 </html>
+
+
