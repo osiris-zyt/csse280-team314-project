@@ -622,9 +622,7 @@ rhit.initializePage = function () {
 			document.querySelector("#startButton").onclick = (event) => {
 				window.location.href = "login.html";
 			}
-			document.querySelector("#logInButton").onclick = (event) => {
-				window.location.href = "login.html";
-			}
+			
 		}
 	}
 

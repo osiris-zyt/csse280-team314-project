@@ -211,9 +211,9 @@ caption {
     color: white;
 } */
 
-/* #worldContainer {
-    padding-top: 10px;
-} */
+#worldContainer {
+    margin-top: 60px;
+}
 
 /* #mainPage {
     margin-top: 110px;
