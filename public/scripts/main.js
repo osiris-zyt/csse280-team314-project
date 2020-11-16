@@ -673,8 +673,9 @@ rhit.initializePage = function () {
 			for(let i = 0; i < list.length && i < 10; i++){
 				result[i+1] = list[i];
 			}
+			console.log("result");
 			rhit.fbResultManager.set(result);
-		}, 1000);
+		}, 300);
 	}
 
 	if (document.querySelector("#viewTestPage")) {
