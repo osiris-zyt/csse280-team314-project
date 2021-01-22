@@ -13,45 +13,116 @@
 <body>
   <nav class="navbar navbar-dark fixed-top">
     <a class="navbar-brand" href="#">COVIDentify</a>
-    <button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1">
+    <a id="greet" class="navbar-brand ml-auto"></a>
+    <div class="dropdown pull-xs-right">
+    <button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="material-icons">person</i>
-      </button>
+    </button>
+    <div id="userMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="lr1">
+      <button id="menuEdit" class="dropdown-item" type="button" data-toggle="modal" data-target="#editModal"><i class="material-icons">account_box</i>&nbsp;&nbsp;Edit Profile</button>
+      <button id="menuTest" class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteModal"><i class="material-icons">history_edu</i>&nbsp;&nbsp;View Test</button>
+      <button id="menuSignOut" class="dropdown-item" type="button"><i class="material-icons">login</i>&nbsp;&nbsp;&nbsp;Sign out</button>
+    </div>
+  </div>
   </nav>
   <div id="mainPage" class="page-container">
-
     <div class="wrapper">
+        <!-- First Page -->
       <div id="statisticContainer" class="page">
-        <div id="logInButtonContainer">
-          <img id="heartLogo" src="/images/heart_logo.png" alt="Heart Logo" >
+        <!-- Upper Half -->
+        <div id="countryContainer">
+          <div class="row justify-content-center">
+            <button id="fab" type="button" class="btn bmd-btn-fab">
+                <i class="material-icons">analytics</i>
+            </button>
+          </div>
 
-          <h3>Log In to see your personalized COVID information</h3>
-          <button id="logInButton" type="button" class="btn">LOG IN</button>
+          <h3>Welcome To COVIDentify!</h3>
+
         </div>
-        <div id="worldStatisticsContainer">
-          <iframe id="worldStatisticFrame" src="https://coronavirus.jhu.edu/map.html"></iframe>
+        <!-- Lower Half -->
+        <div id="worldContainer">
+          <table>
+            <caption>Cases Around The Globe</caption>
+            <tr>
+              <th>Country</th>
+              <th>Total Cases</th>
+              <th>Active Cases</th>
+            </tr>
+            <tr>
+              <td>World</td>
+              <td>53,685,169</td>
+              <td>14,916,815</td>
+            </tr>
+            <tr>
+                <td>USA</td>
+                <td>11,040,418</td>
+                <td>4,017,287</td>
+            </tr>
+            <tr>
+                <td>India</td>
+                <td>8,773,243</td>
+                <td>482,551</td>
+            </tr>
+            <tr>
+                <td>Brazil</td>
+                <td>5,819,496</td>
+                <td>397,783</td>
+            </tr>
+            <tr>
+                <td>France</td>
+                <td>1,922,504</td>
+                <td>1,741,457</td>
+            </tr>
+            <tr>
+                <td>Russia</td>
+                <td>1,880,551</td>
+                <td>441,205</td>
+            </tr>
+            <tr>
+              <td>Argentina</td>
+              <td>1,296,378</td>
+              <td>150,856	</td>
+          </tr>
+          
+          </table>
+        </div>
       </div>
-        
-      </div>
+
+      
       <div id="triviaContainer" class="page">
         <div class="card col-md-10 col-lg-8 mx-auto">
           <div class="card-body">
             <div class="text-center">
-              <img id="sample" class="img-fluid" src="" alt="Sample">
+              
             </div>
             <div class="row">
               <h5 id="cardQuote" class="card-title">Do You Know...</h5>
               <i class="material-icons ml-auto">help</i>
             </div>
             <div>
-              <h6 id="cardMovie" class="card-subtitle mb-2 text-muted">Lorem ipsum dolor sit amet consectetur 
+              <h6 id="cardTrivia" class="card-subtitle mb-2 text-muted">Lorem ipsum dolor sit amet consectetur 
               adipisicing elit. Quam ipsum voluptatum odit modi impedit excepturi porro tenetur eaque ea? 
               Quidem expedita consequuntur iusto illum nulla quia, repudiandae nisi eligendi eius!</h6>
             </div>
           </div>
           <div id="bottomNavi" class="row">
-            <a>PREV</a>
-            <a class="ml-auto">NEXT</a>
+            <a id="triviaPrev">PREV</a>
+            <a id="triviaNext" class="ml-auto">NEXT</a>
           </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <button id="fab" type="button" class="btn bmd-btn-fab">
+            <i class="material-icons">history_edu</i>
+          </button>
+        </div>
+    
+        <h3>Are you confident with your COVID knowledge?</h3>
+        <h3>Try a small test!</h3>
+    
+        <div class="row">
+          <button id="startButton" type="button" class="btn">Start</button>
         </div>
         
       </div>
@@ -59,8 +130,10 @@
 
   </div>
   <nav class="navbar navbar-dark fixed-bottom">
-    <button href="#statisticContainer" id="statButton" class="btn col-6 scrollitem selected">Statistics around the globe</button>
-    <button href="#triviaContainer" id="triviaButton" class="btn col-6 scrollitem">Trivia and small tests</button>
+    <button href="#statisticContainer" id="statButton" class="btn col-6 scrollitem selected d-sm-none">Statistics</button>
+    <button href="#triviaContainer" id="triviaButton" class="btn col-6 scrollitem d-sm-none">Trivia</button>
+    <button href="#statisticContainer" id="statButtonLg" class="btn col-6 scrollitem selected d-none d-sm-block">Statistics around the globe</button>
+    <button href="#triviaContainer" id="triviaButtonLg" class="btn col-6 scrollitem d-none d-sm-block">Trivia and small tests</button>
     <div class="w-100"></div>
     <div id="statIndicator" class="col-6 bg-light"></div>
     <div id="triviaIndicator" class="col-6 bg-light ml-auto"></div>
@@ -80,3 +153,5 @@
 </body>
 
 </html>
+
+

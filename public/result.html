@@ -6,25 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
   <link rel="stylesheet" href="styles/main.css">
-  <title>COVIDentify Login</title>
+  <title>COVIDentify</title>
 </head>
-
+ 
 <body>
   <nav class="navbar navbar-dark fixed-top justify-content-start">
-    <a class="navbar-brand" href="index.html">
-    <i class="material-icons">arrow_back</i>
-    </a>
     <div class="navbar-brand">COVIDentify</div>
     
   </nav>
-  <div id="loginPage" class="container page-container">
-    <h3>Log In to see your personalized COVID information</h3>
-    
-    <div id="firebaseui-auth-container"></div>
-    <button id="rosefireBtn" type="button" class="btn">Sign in with Rosefire</button>
-    
+  <div id="resultPage" class="container page-container">
+
+    <div class="row justify-content-center">
+      <button id="fab" type="button" class="btn bmd-btn-fab">
+        <i class="material-icons">check</i>
+      </button>
+    </div>
+
+    <h3>Congratulations! You have finished the test</h3>
+
+    <div class="row">
+      <button id="homeButton" type="button" class="btn">Mainpage</button>
+    </div>
 
   </div>
   
@@ -37,9 +40,8 @@
   <script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
   <script src="/__/firebase/7.18.0/firebase-auth.js"></script>
   <script src="/__/firebase/7.18.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
-  <script src="/__/firebase/init.js"></script>
   <script src="scripts/rosefire.min.js"></script>
+  <script src="/__/firebase/init.js"></script>
   <script src="scripts/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </body>
